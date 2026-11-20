@@ -1,0 +1,6 @@
+{
+  "name": "PlayGrid — DGU Campus Sports",
+  "description": "Campus-focused sports player-matching and match-organization platform for students at DBS Global University (DGU) in Dehradun.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

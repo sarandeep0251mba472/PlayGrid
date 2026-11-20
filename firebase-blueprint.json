@@ -1,0 +1,474 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Private authenticated user account and preferences document stored at users/{userId}.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID."
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80,
+          "description": "Student full display name."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "minLength": 5,
+          "maxLength": 160,
+          "description": "DGU or personal college email address."
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Avatar URL from Firebase Storage or Google Auth."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["student", "admin"],
+          "description": "Access role within PlayGrid."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deactivated"],
+          "description": "Account activation status."
+        },
+        "university": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100,
+          "description": "University campus affiliation."
+        },
+        "preferredSports": {
+          "type": "array",
+          "description": "List of preferred campus sports (max 6)."
+        },
+        "skillLevel": {
+          "type": "string",
+          "enum": ["Beginner", "Intermediate", "Competitive"],
+          "description": "Self-assessed athletic skill level."
+        },
+        "bio": {
+          "type": "string",
+          "maxLength": 280,
+          "description": "Short student athlete bio and position notes."
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["Mornings", "Free Periods", "Evenings", "Weekends", "Flexible"],
+          "description": "Typical campus play availability window."
+        },
+        "gamesPlayedCount": {
+          "type": "integer",
+          "description": "Total games joined/played."
+        },
+        "gamesHostedCount": {
+          "type": "integer",
+          "description": "Total games organized."
+        },
+        "preferences": {
+          "type": "object",
+          "description": "User notification and theme settings."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of account creation."
+        },
+        "lastLoginAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of latest login."
+        }
+      },
+      "required": [
+        "uid",
+        "fullName",
+        "email",
+        "photoURL",
+        "role",
+        "status",
+        "university",
+        "preferredSports",
+        "skillLevel",
+        "bio",
+        "availability",
+        "gamesPlayedCount",
+        "gamesHostedCount",
+        "preferences",
+        "createdAt",
+        "lastLoginAt"
+      ]
+    },
+    "PlayerProfile": {
+      "title": "PlayerProfile",
+      "description": "Public campus athlete directory card (PII-isolated) stored at player_profiles/{userId}.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "fullName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "deactivated"]
+        },
+        "university": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 100
+        },
+        "preferredSports": {
+          "type": "array"
+        },
+        "skillLevel": {
+          "type": "string",
+          "enum": ["Beginner", "Intermediate", "Competitive"]
+        },
+        "bio": {
+          "type": "string",
+          "maxLength": 280
+        },
+        "availability": {
+          "type": "string",
+          "enum": ["Mornings", "Free Periods", "Evenings", "Weekends", "Flexible"]
+        },
+        "gamesPlayedCount": {
+          "type": "integer"
+        },
+        "gamesHostedCount": {
+          "type": "integer"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "uid",
+        "fullName",
+        "photoURL",
+        "status",
+        "university",
+        "preferredSports",
+        "skillLevel",
+        "bio",
+        "availability",
+        "gamesPlayedCount",
+        "gamesHostedCount",
+        "updatedAt"
+      ]
+    },
+    "AdminMarker": {
+      "title": "AdminMarker",
+      "description": "Trusted admin role lookup document at admins/{userId}.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "grantedBy": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "grantedBy", "createdAt"]
+    },
+    "Game": {
+      "title": "Game",
+      "description": "Campus or nearby Dehradun sports match stored at games/{gameId}.",
+      "type": "object",
+      "properties": {
+        "gameId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "hostName": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 80
+        },
+        "hostPhoto": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "sport": {
+          "type": "string",
+          "enum": ["Cricket", "Football", "Badminton", "Basketball", "Volleyball", "Table Tennis"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 100
+        },
+        "location": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120
+        },
+        "campusDistanceKm": {
+          "type": "number"
+        },
+        "dateTime": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 32,
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}"
+        },
+        "timeWindow": {
+          "type": "string",
+          "enum": ["Mornings", "Free Periods", "Evenings", "Weekends"]
+        },
+        "durationMinutes": {
+          "type": "integer"
+        },
+        "maxPlayers": {
+          "type": "integer"
+        },
+        "currentPlayersCount": {
+          "type": "integer"
+        },
+        "playerIds": {
+          "type": "array"
+        },
+        "skillLevel": {
+          "type": "string",
+          "enum": ["Beginner", "Intermediate", "Competitive"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "full", "completed", "cancelled"]
+        },
+        "convenienceFeeNote": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "whatsappLink": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "gameId",
+        "hostId",
+        "hostName",
+        "hostPhoto",
+        "sport",
+        "title",
+        "location",
+        "campusDistanceKm",
+        "dateTime",
+        "timeWindow",
+        "durationMinutes",
+        "maxPlayers",
+        "currentPlayersCount",
+        "playerIds",
+        "skillLevel",
+        "status",
+        "convenienceFeeNote",
+        "notes",
+        "whatsappLink",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "In-app notification for game joins, invites, or cancellations stored at notifications/{notificationId}.",
+      "type": "object",
+      "properties": {
+        "notificationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "recipientId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "senderId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "senderName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "type": {
+          "type": "string",
+          "enum": ["game_join", "game_leave", "game_cancel", "game_invite", "system"]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 240
+        },
+        "gameId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "gameTitle": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "isRead": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "notificationId",
+        "recipientId",
+        "senderId",
+        "senderName",
+        "type",
+        "message",
+        "gameId",
+        "gameTitle",
+        "isRead",
+        "createdAt"
+      ]
+    },
+    "PilotFeedback": {
+      "title": "PilotFeedback",
+      "description": "MVP pilot validation survey submission stored at pilot_feedback/{feedbackId}.",
+      "type": "object",
+      "properties": {
+        "feedbackId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "gameId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "savedTimeOverWhatsapp": {
+          "type": "boolean"
+        },
+        "rating": {
+          "type": "integer"
+        },
+        "wouldUseAgain": {
+          "type": "boolean"
+        },
+        "willingToPay40INR": {
+          "type": "boolean"
+        },
+        "comments": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "feedbackId",
+        "userId",
+        "userName",
+        "gameId",
+        "savedTimeOverWhatsapp",
+        "rating",
+        "wouldUseAgain",
+        "willingToPay40INR",
+        "comments",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Private user account records containing PII (email) and personal settings. Strictly restricted to owner or admin."
+    },
+    "/player_profiles/{userId}": {
+      "schema": { "$ref": "#/entities/PlayerProfile" },
+      "description": "Public campus athlete directory cards without PII for teammate discovery and invites."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminMarker" },
+      "description": "Trusted role lookup markers for platform administrators."
+    },
+    "/games/{gameId}": {
+      "schema": { "$ref": "#/entities/Game" },
+      "description": "Campus and nearby Dehradun sports games created by verified DGU students."
+    },
+    "/notifications/{notificationId}": {
+      "schema": { "$ref": "#/entities/Notification" },
+      "description": "In-app notifications for joins, invites, and cancellations."
+    },
+    "/pilot_feedback/{feedbackId}": {
+      "schema": { "$ref": "#/entities/PilotFeedback" },
+      "description": "MVP pilot validation survey entries."
+    }
+  }
+}
